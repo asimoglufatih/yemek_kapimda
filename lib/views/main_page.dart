@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yemek_kapimda/cubits/main_page_cubit.dart';
 import 'package:yemek_kapimda/entity/food.dart';
 import 'package:yemek_kapimda/constants/app_constants.dart' as Constant;
+import 'package:yemek_kapimda/views/cart.dart';
 import 'package:yemek_kapimda/views/detail_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: BlocBuilder<MainPageCubit, List<Food>>(
         builder: (context, foodList){
-          if(foodList.length > 0){
+          if(foodList.isNotEmpty){
             return ListView.builder(
               itemCount: foodList.length,
               itemBuilder: (context, index){
@@ -57,6 +58,12 @@ class _MainPageState extends State<MainPage> {
               child: Text("Bir sey bulunamadi"),
             );
           }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Cart()));
         },
       ),
     );

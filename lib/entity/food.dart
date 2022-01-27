@@ -4,6 +4,7 @@ class Food {
   String food_image_name;
   String food_price;
 
+
   Food({required this.food_id, required this.food_name, required this.food_image_name, required this.food_price});
 
   factory Food.fromJson(Map<String, dynamic> json ){

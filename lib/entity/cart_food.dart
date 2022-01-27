@@ -6,6 +6,7 @@ class CartFood {
   String food_order_quantity;
   String user_name;
 
+
   CartFood({required this.cart_food_id, required this.food_name, required this.food_image_name,
       required this.food_price, required this.food_order_quantity, required this.user_name});
 

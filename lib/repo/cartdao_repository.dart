@@ -11,7 +11,7 @@ class CartDaoRepository {
   }
 
   Future<void> addFood(String food_name, String food_image_name,
-    int food_price, int food_order_quantity, String user_name) async {
+    String food_price, String food_order_quantity, String user_name) async {
     var url = Uri.parse("http://kasimadalan.pe.hu/yemekler/sepeteYemekEkle.php");
     var body = {
       "yemek_adi": food_name,
@@ -25,7 +25,7 @@ class CartDaoRepository {
 
   }
 
-  Future<List<CartFood>> getFood(String user_name) async {
+  Future<List<CartFood>> getAllFood(String user_name) async {
     var uri = Uri.parse("http://kasimadalan.pe.hu/yemekler/sepettekiYemekleriGetir.php");
     var requestUrl = uri.replace(queryParameters: {
       "kullanici_adi": user_name
