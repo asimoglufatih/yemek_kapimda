@@ -13,6 +13,8 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
 
+  int totalAmount = 0;
+
   @override
   void initState() {
     super.initState();
@@ -37,14 +39,11 @@ class _CartState extends State<Cart> {
                           height: 100,
                           child: Image.network("${Constant.FOOD_IMAGE_URL}/${food.food_image_name}")),
                         Spacer(),
-                        Column(
-                          children: [
-                            Text("${food.food_name}", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                            Text("${food.food_price}₺", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
+                        Text("${food.food_name}", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                         Spacer(),
                         Text("Adet: ${food.food_order_quantity}", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                        Spacer(),
+                        Text("Tutar: ${int.parse(food.food_price) * int.parse(food.food_order_quantity)}", style: TextStyle(fontWeight: FontWeight.bold),),
                         Spacer(),
                         IconButton(onPressed: (){
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -60,10 +59,14 @@ class _CartState extends State<Cart> {
                         }, icon: Icon(Icons.delete)),
                       ],
                     ),
+
                   );
                 });
+
           }else{
-            return Center();
+            return Center(
+              child: Text("Bir şey bulunamadı."),
+            );
           }
         },
       ),

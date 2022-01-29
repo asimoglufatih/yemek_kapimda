@@ -59,6 +59,14 @@ class _DetailPageState extends State<DetailPage> {
                     widget.food.food_name, widget.food.food_image_name,
                     widget.food.food_price, food_quantity.toString(),
                     Constant.USER_NAME);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Başarıyla sepete eklendi."), duration: Duration(seconds: 1),)
+                );
+                Navigator.pop(context);
+              }else{
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Sepete eklenemedi."), duration: Duration(seconds: 1),)
+                );
               }
             },child: Text("Sepete Ekle")),
 

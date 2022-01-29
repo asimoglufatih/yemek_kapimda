@@ -21,7 +21,6 @@ class CartDaoRepository {
       "kullanici_adi": user_name
     };
     var response = await http.post(url, body: body);
-    print("added to cart ${response.body}");
 
   }
 

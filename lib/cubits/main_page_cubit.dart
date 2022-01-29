@@ -9,7 +9,6 @@ class MainPageCubit extends Cubit<List<Food>> {
 
   Future<void> loadAllFood() async {
     var list = await frepo.getAllFoods();
-    print(list);
     emit(list);
   }
 }
