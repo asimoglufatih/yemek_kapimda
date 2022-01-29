@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yemek_kapimda/cubits/cart_cubit.dart';
 import 'package:yemek_kapimda/entity/cart_food.dart';
 import 'package:yemek_kapimda/constants/app_constants.dart' as Constant;
+import 'package:yemek_kapimda/colors/colors.dart' as ColorPage;
 
 class Cart extends StatefulWidget {
 
@@ -20,9 +21,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sepetim"),
-      ),
+      backgroundColor: ColorPage.linen,
       body: BlocBuilder<CartCubit, List<CartFood>>(
         builder: (context, foodList){
           if(foodList.isNotEmpty){
@@ -33,14 +32,32 @@ class _CartState extends State<Cart> {
                   return Card(
                     child: Row(
                       children: [
-                        Image.network("${Constant.FOOD_IMAGE_URL}/${food.food_image_name}"),
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Image.network("${Constant.FOOD_IMAGE_URL}/${food.food_image_name}")),
+                        Spacer(),
                         Column(
                           children: [
-                            Text("${food.food_name}", style: TextStyle(fontSize: 15),),
-                            Text("${food.food_price}", style: TextStyle(fontSize: 15),),
+                            Text("${food.food_name}", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                            Text("${food.food_price}₺", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                           ],
                         ),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
+                        Spacer(),
+                        Text("Adet: ${food.food_order_quantity}", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                        Spacer(),
+                        IconButton(onPressed: (){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("${food.food_name} Silinsin mi?"),
+                                action: SnackBarAction(
+                                  label: "Evet",
+                                  onPressed: (){
+                                    context.read<CartCubit>().deleteFood(int.parse(food.cart_food_id), Constant.USER_NAME);
+                                  },
+                                ),
+                          ));
+                        }, icon: Icon(Icons.delete)),
                       ],
                     ),
                   );

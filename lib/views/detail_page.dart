@@ -3,6 +3,7 @@ import 'package:yemek_kapimda/cubits/detail_page_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yemek_kapimda/entity/food.dart';
 import 'package:yemek_kapimda/constants/app_constants.dart' as Constant;
+import 'package:yemek_kapimda/colors/colors.dart' as ColorPage;
 
 class DetailPage extends StatefulWidget {
   Food food;
@@ -15,11 +16,12 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
 
 
-  int food_quantity = 0;
+  int food_quantity = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorPage.linen,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -47,9 +49,19 @@ class _DetailPageState extends State<DetailPage> {
                 }, icon: Icon(Icons.add)),
               ],
             ),
-            ElevatedButton(onPressed: (){
-              context.read<DetailPageCubit>().addFood(widget.food.food_name, widget.food.food_image_name, widget.food.food_price, food_quantity.toString(), Constant.USER_NAME);
-            }, child: Text("Sepete Ekle")),
+            ElevatedButton(
+               style: ElevatedButton.styleFrom(
+                 primary: ColorPage.red_light
+               ),
+                onPressed: (){
+              if(food_quantity > 0) {
+                context.read<DetailPageCubit>().addFood(
+                    widget.food.food_name, widget.food.food_image_name,
+                    widget.food.food_price, food_quantity.toString(),
+                    Constant.USER_NAME);
+              }
+            },child: Text("Sepete Ekle")),
+
           ],
         ),
       ),

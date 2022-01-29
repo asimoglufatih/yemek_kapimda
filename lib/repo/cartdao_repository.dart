@@ -25,23 +25,32 @@ class CartDaoRepository {
 
   }
 
-  Future<List<CartFood>> getAllFood(String user_name) async {
-    var uri = Uri.parse("http://kasimadalan.pe.hu/yemekler/sepettekiYemekleriGetir.php");
-    var requestUrl = uri.replace(queryParameters: {
-      "kullanici_adi": user_name
-    });
-    var response = await http.get(requestUrl);
+  Future<List<CartFood>> getAllCartFood(String user_name) async {
+    var url = Uri.parse("http://kasimadalan.pe.hu/yemekler/sepettekiYemekleriGetir.php");
+    var data = {"kullanici_adi": user_name};
+
+    var response = await http.post(url, body: data);
 
     return parseCartFoodResponse(response.body);
   }
 
+  // Future<List<CartFood>> getAllFood(String user_name) async {
+  //   var uri = Uri.parse("http://kasimadalan.pe.hu/yemekler/sepettekiYemekleriGetir.php");
+  //   var requestUrl = uri.replace(queryParameters: {
+  //     "kullanici_adi": user_name
+  //   });
+  //   var response = await http.get(requestUrl);
+  //
+  //   return parseCartFoodResponse(response.body);
+  // }
+
   Future<void> deleteFood(int cart_food_id, String user_name) async {
     var url = Uri.parse("http://kasimadalan.pe.hu/yemekler/sepettenYemekSil.php");
     var body =  {
-      "sepet_yemek_id": cart_food_id,
+      "sepet_yemek_id": cart_food_id.toString(),
       "kullanici_adi": user_name
     };
-    var response = await http.delete(url, body: body);
+    var response = await http.post(url, body: body);
     print("deleteFood ${response.body}");
   }
 

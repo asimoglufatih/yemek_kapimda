@@ -4,7 +4,9 @@ import 'package:yemek_kapimda/cubits/main_page_cubit.dart';
 import 'package:yemek_kapimda/entity/food.dart';
 import 'package:yemek_kapimda/constants/app_constants.dart' as Constant;
 import 'package:yemek_kapimda/views/cart.dart';
-import 'package:yemek_kapimda/views/detail_page.dart';
+import 'package:yemek_kapimda/views/foods_page.dart';
+import 'package:yemek_kapimda/views/profile_page.dart';
+import 'package:yemek_kapimda/colors/colors.dart' as ColorPage;
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -16,6 +18,10 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
+  int currentIndex = 0;
+
+  var pageList = [ProfilePage(),FoodsPage(),Cart()];
+
   @override
   void initState() {
     super.initState();
@@ -25,46 +31,31 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Yemek Kapımda"),
+        backgroundColor: ColorPage.green_light,
+        title: Text("Yemek Kapımda",
+          style: TextStyle(
+              fontFamily: 'Caveat',
+              fontWeight: FontWeight.w600,
+              fontSize: 30,
+              color: ColorPage.red_light,
+          ),
+        ),
       ),
-      body: BlocBuilder<MainPageCubit, List<Food>>(
-        builder: (context, foodList){
-          if(foodList.isNotEmpty){
-            return ListView.builder(
-              itemCount: foodList.length,
-              itemBuilder: (context, index){
-                var food = foodList[index];
-                return GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(food: food)));
-                  },
-                  child: Card(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Image.network("${Constant.FOOD_IMAGE_URL}/${food.food_image_name}")),
-                        Text("${food.food_name}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-                        Text("${food.food_price}₺", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-                      ],
-                    ),
-                  ),
-                );
-
-              });
-          }else{
-            return Center(
-              child: Text("Bir sey bulunamadi"),
-            );
-          }
+      body: pageList[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Yemekler"),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Sepetim"),
+        ],
+        currentIndex: currentIndex,
+        onTap: (index){
+          setState(() {
+            currentIndex = index;
+          });
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Cart()));
-        },
+        backgroundColor: ColorPage.green_light,
+        selectedItemColor: ColorPage.red_light,
       ),
     );
   }
