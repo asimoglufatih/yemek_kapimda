@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yemek_kapimda/entity/food.dart';
 import 'package:yemek_kapimda/constants/app_constants.dart' as Constant;
 import 'package:yemek_kapimda/colors/colors.dart' as ColorPage;
+import 'package:yemek_kapimda/constants/profile.dart';
 
 class DetailPage extends StatefulWidget {
   Food food;
@@ -15,8 +16,14 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
 
-
   int food_quantity = 1;
+
+  String isSpWorked(String user){
+    if(user != ""){
+      return user;
+    }else
+      return Constant.USER_NAME;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +65,7 @@ class _DetailPageState extends State<DetailPage> {
                 context.read<DetailPageCubit>().addFood(
                     widget.food.food_name, widget.food.food_image_name,
                     widget.food.food_price, food_quantity.toString(),
-                    Constant.USER_NAME);
+                    isSpWorked(Profile.currentUser));
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Başarıyla sepete eklendi."), duration: Duration(seconds: 1),)
                 );

@@ -4,6 +4,7 @@ import 'package:yemek_kapimda/cubits/cart_cubit.dart';
 import 'package:yemek_kapimda/entity/cart_food.dart';
 import 'package:yemek_kapimda/constants/app_constants.dart' as Constant;
 import 'package:yemek_kapimda/colors/colors.dart' as ColorPage;
+import 'package:yemek_kapimda/constants/profile.dart';
 
 class Cart extends StatefulWidget {
 
@@ -15,10 +16,17 @@ class _CartState extends State<Cart> {
 
   int totalAmount = 0;
 
+  String isSpWorked(String user){
+    if(user != ""){
+      return user;
+    }else
+      return Constant.USER_NAME;
+  }
+
   @override
   void initState() {
     super.initState();
-    context.read<CartCubit>().getAllCartFood();
+    context.read<CartCubit>().getAllCartFood(isSpWorked(isSpWorked(Profile.currentUser)));
   }
   @override
   Widget build(BuildContext context) {
@@ -45,14 +53,15 @@ class _CartState extends State<Cart> {
                         Spacer(),
                         Text("Tutar: ${int.parse(food.food_price) * int.parse(food.food_order_quantity)}", style: TextStyle(fontWeight: FontWeight.bold),),
                         Spacer(),
-                        IconButton(onPressed: (){
+                        IconButton(onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
+                                duration: Duration(seconds: 1),
                                 content: Text("${food.food_name} Silinsin mi?"),
                                 action: SnackBarAction(
                                   label: "Evet",
-                                  onPressed: (){
-                                    context.read<CartCubit>().deleteFood(int.parse(food.cart_food_id), Constant.USER_NAME);
+                                  onPressed: () {
+                                    context.read<CartCubit>().deleteFood(int.parse(food.cart_food_id), isSpWorked(Profile.currentUser));
                                   },
                                 ),
                           ));

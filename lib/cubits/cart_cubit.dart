@@ -8,14 +8,14 @@ class CartCubit extends Cubit<List<CartFood>> {
 
   var crepo = CartDaoRepository();
 
-  Future<void> getAllCartFood() async{
-    var list = await crepo.getAllCartFood(Constant.USER_NAME);
+  Future<void> getAllCartFood(String user_name) async{
+    var list = await crepo.getAllCartFood(user_name);
 
     emit(list);
   }
 
   Future <void> deleteFood(int cart_food_id, String user_name) async {
     await crepo.deleteFood(cart_food_id, user_name);
-    await getAllCartFood();
+    getAllCartFood(user_name);
   }
 }
