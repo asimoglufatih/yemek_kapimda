@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yemek_kapimda/cubits/cart_cubit.dart';
 import 'package:yemek_kapimda/cubits/detail_page_cubit.dart';
 import 'package:yemek_kapimda/cubits/main_page_cubit.dart';
+import 'package:yemek_kapimda/navigation/navigation_cubit.dart';
 import 'package:yemek_kapimda/views/main_page.dart';
 
 void main() {
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => NavigationCubit()),
         BlocProvider(create: (context) => MainPageCubit()),
         BlocProvider(create: (context) => DetailPageCubit()),
         BlocProvider(create: (context) => CartCubit()),

@@ -7,8 +7,12 @@ class CartFoodResponse {
   CartFoodResponse({required this.cartFoodList, required this.success});
 
   factory CartFoodResponse.fromJson(Map<String, dynamic> json){
+
     var jsonArray = json["sepet_yemekler"] as List;
     List<CartFood> cartFoodList = jsonArray.map((obj) => CartFood.fromJson(obj)).toList();
+    if(cartFoodList.isEmpty){
+      return CartFoodResponse(cartFoodList: [], success: json["success"] as int);
+    }
 
     return CartFoodResponse(cartFoodList: cartFoodList, success: json["success"] as int);
   }

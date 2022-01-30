@@ -31,6 +31,7 @@ class CartDaoRepository {
     var data = {"kullanici_adi": user_name};
 
     var response = await http.post(url, body: data);
+    print(response.body);
 
     return parseCartFoodResponse(response.body);
   }
